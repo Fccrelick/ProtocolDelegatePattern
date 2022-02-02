@@ -13,6 +13,7 @@ class ViewController: UIViewController, NotificationSettingViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        notificationView.delegate = self
         view.addSubview(notificationView)
 
     }
@@ -26,8 +27,16 @@ class ViewController: UIViewController, NotificationSettingViewDelegate {
     }
 
     func didTapEnableButton() {
-        let alert = UIAlertController(title: "Enable Notifications",
-                                      message: "some longer message here to tell user to do stuff", preferredStyle: .alert)
+        let alert = UIAlertController(
+            title: "Enable Notifications",
+            message: "some longer message here to tell user to do stuff",
+            preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+
+        present(alert, animated: true)
+
+
     }
 
 }
@@ -79,7 +88,7 @@ class NotificationSettingView: UIView {
     }
 
     @objc func didTapButton() {
-
+        delegate?.didTapEnableButton()
     }
 
     override func layoutSubviews() {
