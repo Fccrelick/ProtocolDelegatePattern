@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, NotificationSettingViewDelegate {
 
     private let notificationView = NotificationSettingView()
 
@@ -25,10 +25,21 @@ class ViewController: UIViewController {
                                         height: view.frame.size.height-view.safeAreaInsets.top-view.safeAreaInsets.bottom)
     }
 
+    func didTapEnableButton() {
+        let alert = UIAlertController(title: "Enable Notifications",
+                                      message: "some longer message here to tell user to do stuff", preferredStyle: .alert)
+    }
 
 }
 
+protocol NotificationSettingViewDelegate: AnyObject {
+    func didTapEnableButton()
+}
+
 class NotificationSettingView: UIView {
+
+    weak var delegate: NotificationSettingViewDelegate?
+
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "bell")
@@ -50,6 +61,7 @@ class NotificationSettingView: UIView {
         button.setTitle("Enable Notifications", for: .normal)
         button.backgroundColor = .systemGreen
         button.setTitleColor(.white, for: .normal)
+        button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
 
         return button
     }()
@@ -64,6 +76,10 @@ class NotificationSettingView: UIView {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    @objc func didTapButton() {
+
     }
 
     override func layoutSubviews() {
